@@ -13,7 +13,7 @@ By analyzing the current status, we can observe that only two ports are accessib
 No alt text provided for this image
 IP Showing URL Name
 
-At this point, we need to include the new URL "photobomb.htb" to the `/etc/hosts` file to access the corresponding webpage. From here we will nano into the `/etc/hosts` file.
+At this point, we need to include the new URL `photobomb.htb` to the `/etc/hosts` file to access the corresponding webpage. From here we will nano into the `/etc/hosts` file.
 
 No alt text provided for this image
 etc/hosts file
@@ -23,7 +23,7 @@ With the updated IP and URL added to the `/etc/hosts` file, we can now revisit t
 No alt text provided for this image
 Webpage working properly
 
-On the page, we have a hyperlink "click here!" that leads to `photobomb.htb/printer`. Upon clicking on the link, a login popup appears. We attempted to log in with the credentials "admin:admin," but no response was generated. Cancelling the login led us to a 401 Authorization Required error, accompanied by nginx/1.18.0 (Ubuntu) message.
+On the page, we have a hyperlink "click here!" that leads to `photobomb.htb/printer`. Upon clicking on the link, a login popup appears. We attempted to log in with the credentials [![Credentials](https://img.shields.io/badge/admin:-admin-blue)](https://shields.io/), but no response was generated. Cancelling the login led us to a 401 Authorization Required error, accompanied by nginx/1.18.0 (Ubuntu) message.
 
 No alt text provided for this image
 Login
@@ -36,7 +36,7 @@ Our next step is to examine the source code of the photobomb.htb webpage. After 
 No alt text provided for this image
 photobomb.js file that show credentials
 
-After conducting a thorough examination of the photobomb.js file, we have uncovered the existence of credentials embedded within the Javascript code. Our next step is to attempt to log in using the credentials pH0t0:b0Mb!.
+After conducting a thorough examination of the photobomb.js file, we have uncovered the existence of credentials embedded within the Javascript code. Our next step is to attempt to log in using the credentials [![Credentials](https://img.shields.io/badge/pH0t0:-b0Mb!-blue)](https://shields.io/).
 
 No alt text provided for this image
 Login page for phtobomb.htb/printer
